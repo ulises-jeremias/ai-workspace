@@ -9,6 +9,13 @@ set -euo pipefail
 
 WORKSPACE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+# ── non-interactive detection ─────────────────────────────────────────────────
+# If stdin is not a terminal (piped, CI, AI tool), use defaults automatically.
+INTERACTIVE=true
+if [[ ! -t 0 ]]; then
+  INTERACTIVE=false
+fi
+
 # ── colors ────────────────────────────────────────────────────────────────────
 _color() { [[ -t 1 ]] && printf '\033[%sm%s\033[0m' "$1" "$2" || printf '%s' "$2"; }
 blue()   { _color "1;34" "$*"; echo; }
@@ -19,7 +26,12 @@ dim()    { _color "0;37" "$*"; echo; }
 
 ask() {
   # ask <prompt> <default>
+  # In non-interactive mode, returns default immediately without prompting.
   local prompt="${1}" default="${2:-}"
+  if [[ "${INTERACTIVE}" == "false" ]]; then
+    echo "${default}"
+    return
+  fi
   if [[ -n "${default}" ]]; then
     printf '%s [%s]: ' "${prompt}" "${default}"
   else
