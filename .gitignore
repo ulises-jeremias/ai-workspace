@@ -1,0 +1,91 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+.env.*.local
+.envrc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# ClickUp / JIRA tokens - NEVER commit
+**/clickup-token*
+**/clickup_token*
+**/CLICKUP_TOKEN*
+*.clickup*
+
+# Credentials
+**/credentials*
+**/.netrc
+**/secrets*
+**/.env*secrets*
+
+# Binaries that may contain sensitive paths
+bin/tmp/
+*.tmp
+
+# OS files
+.Trashes
+._*
+
+# Terraform state (if any)
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Large files (>5MB)
+*.zip
+*.tar.gz
+*.tgz
+*.mov
+*.mp4
+
+# Local workspace configuration (customize per machine)
+.workspace.yaml
+projects.yaml
+
+# Active session state (machine-local, should not be committed)
+.active-persona
+.active-pack
+
+# Cloned repositories (gitignored - use project-indexer to manage)
+repos/
+
+# Project symlinks (personal per user)
+# All symlinks are machine-specific - ignore the entire directory
+projects/
+
+# Python / tool caches
+.ruff_cache/
+.mypy_cache/
+
+# Spreadsheets and large work files (keep out of the repo)
+*.xlsx
+*.xls
+*.csv

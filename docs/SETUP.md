@@ -1,0 +1,262 @@
+# Setup Guide
+
+> How to set up and configure the AI Workspace for your environment.
+
+---
+
+## Prerequisites
+
+- Git
+- Bash or Zsh
+- AI tool: OpenCode (recommended), Claude Code, Gemini CLI, GitHub Copilot, or Cursor
+
+---
+
+## Quick Setup
+
+```bash
+# 1. Clone as your workspace
+git clone <repo-url> ~/.ai-workspace
+cd ~/.ai-workspace
+
+# 2. (Optional) Make it your own — remove upstream history
+rm -rf .git && git init && git add . && git commit -m "chore: init workspace"
+
+# 3. Make bin scripts executable
+chmod +x ./bin/*
+
+# 4. Initialize project directories
+./bin/project-indexer init
+
+# 5. Clone your repos
+./bin/project-indexer clone owner/my-repo
+
+# 6. Open in your AI tool
+opencode        # or: claude / cursor / gemini
+```
+
+---
+
+## Step-by-Step Installation
+
+### 1. Clone the repository
+
+```bash
+git clone <repo-url> ~/.ai-workspace
+cd ~/.ai-workspace
+```
+
+### 2. Make scripts executable
+
+```bash
+chmod +x ./bin/*
+```
+
+### 3. Initialize workspace
+
+```bash
+./bin/project-indexer init
+# Creates repos/ and projects/ directories
+```
+
+### 4. Clone your repos
+
+```bash
+# Clone repos you work with
+./bin/project-indexer clone owner/my-project
+./bin/project-indexer clone owner/my-other-project
+```
+
+### 5. Configure your project index
+
+```bash
+cp projects.yaml.example projects.yaml
+# Edit projects.yaml with your actual repos
+```
+
+### 6. Start using with AI
+
+```bash
+# Recommended
+opencode
+
+# Or any of these
+claude
+gemini
+cursor
+gh copilot session
+```
+
+---
+
+## Configuration Files
+
+### projects.yaml
+
+Central index of all projects. **Copy and customize**:
+
+```bash
+cp projects.yaml.example projects.yaml
+vim projects.yaml
+```
+
+### .workspace.yaml
+
+Local workspace config (gitignored). Copy from example:
+
+```bash
+cp .workspace.yaml.example .workspace.yaml
+vim .workspace.yaml
+```
+
+### .gitignore
+
+Pre-configured to ignore:
+
+- `.workspace.yaml` — local config
+- `projects.yaml` — your project index
+- `repos/` — cloned repositories
+- `projects/` — symlinks
+- Environment files (`.env`)
+- IDE files (`.vscode/`, `.idea/`)
+- Token/credential files
+
+---
+
+## Directory Structure
+
+After setup:
+
+```text
+ai-workspace/
+├── .gitignore
+├── AGENTS.md                  ← Main AI instructions
+├── CLAUDE.md                  ← Symlink → AGENTS.md
+├── GEMINI.md                  ← Symlink → AGENTS.md
+├── README.md
+├── projects.yaml.example
+├── bin/
+│   ├── project-indexer        ← Manage repos and symlinks
+│   ├── assistant-memory       ← Knowledge base CLI
+│   ├── devcompanion           ← Background job queue
+│   └── workspace-context      ← Session state snapshot
+├── knowledge/                 ← Persistent AI memory (git-tracked)
+│   ├── processes/             ← Tool and workflow docs
+│   ├── learnings/             ← Discoveries and patterns
+│   ├── todos/                 ← Deferred work
+│   └── skills/                ← Skill discoveries
+├── personas/                  ← Work mode definitions
+├── packs/                     ← Project context bundles
+├── docs/                      ← This documentation
+├── templates/jobs/            ← Job templates
+├── projects/                  ← Symlinks to repos (gitignored)
+└── repos/                     ← Cloned repos (gitignored)
+    └── github.com/
+        └── owner/
+            └── my-repo/
+```
+
+---
+
+## AI Tool Configuration
+
+### OpenCode (Recommended)
+
+OpenCode natively supports `AGENTS.md` and has a built-in skills system. No additional configuration needed — just open opencode in the workspace directory.
+
+### Claude Code
+
+Claude Code automatically reads `AGENTS.md`. No additional config needed.
+
+Optional `~/.claude/settings.json`:
+
+```json
+{
+  "permissions": {
+    "allow": ["Read", "Bash", "Edit", "Write"]
+  }
+}
+```
+
+### Gemini CLI
+
+Gemini CLI reads `GEMINI.md` (symlinked to `AGENTS.md`).
+
+### GitHub Copilot
+
+The `.github/copilot-instructions.md` symlink points to `AGENTS.md` automatically.
+
+### Cursor
+
+Cursor reads `CLAUDE.md` (symlinked to `AGENTS.md`).
+
+---
+
+## Verifying Your Setup
+
+```bash
+# Check indexed projects
+./bin/project-indexer list
+
+# Check knowledge base
+./bin/assistant-memory todo
+
+# Get session context snapshot
+./bin/workspace-context
+
+# Queue a test job (no LLM)
+./bin/devcompanion queue my-project --template code-review
+./bin/devcompanion run-once --no-llm
+```
+
+---
+
+## Updating
+
+```bash
+cd ~/.ai-workspace
+git pull origin main
+```
+
+---
+
+## Troubleshooting
+
+### Scripts not executable
+
+```bash
+chmod +x ./bin/*
+```
+
+### jq not found
+
+```bash
+# macOS
+brew install jq
+
+# Ubuntu/Debian
+sudo apt install jq
+
+# Fedora/RHEL
+sudo dnf install jq
+```
+
+### Repos not found
+
+```bash
+# Check what's cloned
+./bin/project-indexer scan
+
+# Clone missing repos
+./bin/project-indexer clone owner/repo-name
+```
+
+### DevCompanion fails with "No LLM provider"
+
+Set at least one LLM provider:
+
+```bash
+export ANTHROPIC_API_KEY="sk-ant-..."
+# or
+export OPENAI_API_KEY="sk-..."
+```

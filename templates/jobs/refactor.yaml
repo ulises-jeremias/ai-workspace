@@ -1,0 +1,20 @@
+# Job template: refactor
+# Scoped refactoring task — must be given a specific scope via --request.
+
+name: refactor
+description: "Scoped refactoring with tests and PR"
+
+request: |
+  Perform a scoped refactoring on this repository. Before making changes:
+  1. Use dev-assistant to inspect the existing code structure
+  2. Identify the target area (specified in the request override)
+  3. Apply refactor-cleaner agent for dead code removal / simplification
+  4. Ensure tests still pass after changes
+  5. Create a PR with a clear description of what changed and why
+
+  Always prefer editing existing code over rewriting. Keep behavior unchanged
+  unless explicitly asked.
+
+# This template REQUIRES --request to specify the scope, e.g.:
+#   devcompanion queue my-api --template refactor --request "simplify auth middleware"
+#   devcompanion queue my-api --template refactor --request "remove dead code in services/"

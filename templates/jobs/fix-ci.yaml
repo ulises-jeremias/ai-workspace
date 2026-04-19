@@ -1,0 +1,20 @@
+# Job template: fix-ci
+# Investigate and fix failing CI checks.
+
+name: fix-ci
+description: "Investigate and fix failing CI checks on the current branch"
+
+request: |
+  Investigate and fix the failing CI checks on this repository. Steps:
+  1. Use gh run list or glab ci list to see recent failures
+  2. Fetch the failure logs to identify the root cause
+  3. Distinguish between flaky infra issues vs real code/config bugs
+  4. Fix the actual root cause — no workarounds, no continue-on-error patches
+  5. Verify pre-commit passes locally before pushing
+  6. Push fixes and confirm CI goes green
+
+  Priority: fix things properly. If a failure is a genuine infra issue outside
+  our control, document it clearly and create a GitHub issue instead.
+
+# Example:
+#   devcompanion queue my-project --template fix-ci

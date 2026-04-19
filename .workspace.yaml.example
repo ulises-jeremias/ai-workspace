@@ -1,0 +1,62 @@
+# Local workspace configuration
+# Copy this file to .workspace.yaml and customize for your environment.
+# This file is gitignored — it's local to your machine.
+#
+# Quick setup: run ./scripts/workspace-init.sh for an interactive wizard.
+
+# ── Base paths ─────────────────────────────────────────────────────────────────
+base_paths:
+  # Your GitHub org or username (used as default for cloning)
+  default_org: my-org
+
+  # Where to clone new repos (relative to workspace or absolute)
+  clone_dir: ./repos
+
+  # (Optional) Path to an existing repos directory on your machine
+  # repos: ~/dev/repos
+
+# ── Projects structure ─────────────────────────────────────────────────────────
+# Describes the directory layout for your cloned repos
+projects:
+  my-org:
+    category: my-org
+    path: "./repos/github.com/my-org"
+    description: My organization's repositories
+
+  personal:
+    category: personal
+    path: "./repos/github.com/my-username"
+    description: Personal projects
+
+  clients:
+    category: clients
+    path: "./repos/github.com"
+    description: Client repositories
+
+# ── AI tool preferences ────────────────────────────────────────────────────────
+ai:
+  # Preferred AI tool to launch (opencode, claude, cursor, gemini)
+  preferred_tool: opencode
+
+  # Language for conversation (AI matches this)
+  # Technical output (PRs, commits, tickets) is always in English
+  conversation_language: english
+
+# ── devcompanion ──────────────────────────────────────────────────────────────
+devcompanion:
+  # Override queue home (default: ~/.local/share/ai-workspace/dev-companion)
+  # queue_home: ~/.local/share/ai-workspace/dev-companion
+
+  # Default template for quick queuing
+  # default_template: code-review
+
+# ── Personas ──────────────────────────────────────────────────────────────────
+personas:
+  # Default persona at session start (leave empty for no default)
+  # default: implementer
+
+# ── Notes ─────────────────────────────────────────────────────────────────────
+# Add any machine-specific notes or overrides below
+notes: |
+  Configure this file with your local paths and preferences.
+  Run ./scripts/workspace-init.sh to set up the basics automatically.

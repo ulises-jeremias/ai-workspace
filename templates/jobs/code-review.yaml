@@ -1,0 +1,22 @@
+# Job template: code-review
+# Triggers a full code review pass on the repo using the code-reviewer agent.
+
+name: code-review
+description: "Full code review for quality, security, and maintainability"
+
+request: |
+  Perform a thorough code review of this repository. Focus on:
+  1. Code quality and maintainability
+  2. Security vulnerabilities or anti-patterns
+  3. TypeScript/type safety issues if applicable
+  4. Obvious bugs or edge cases
+  5. Documentation gaps
+
+  Use the dev-assistant skill for initial repo inspection, then delegate to
+  code-reviewer and security-reviewer agents. Produce a summary report with
+  prioritized findings (critical / high / medium / low).
+
+# Optional: override per-invocation with --request "also check X"
+# Example:
+#   devcompanion queue my-repo --template code-review
+#   devcompanion queue my-repo --template code-review --request "focus on auth module"

@@ -1,0 +1,19 @@
+# Job template: create-pr
+# Pushes the current branch and creates a draft PR with a description
+# generated from the commit history.
+
+name: create-pr
+description: "Push branch and create a draft PR with generated description"
+
+request: |
+  Push the current branch to origin and create a draft pull request.
+  Follow these steps:
+  1. Run git status and git log to understand the changes
+  2. Use dev-assistant to inspect the repo conventions (PR template, CONTRIBUTING)
+  3. Generate a clear PR title and body following the repo's style
+  4. Use the github-cli-workflow or gitlab-cli-workflow skill to push and create the PR
+  5. Report the PR URL
+
+# Example:
+#   devcompanion queue my-repo --template create-pr
+#   devcompanion queue my-repo --template create-pr --request "base branch is develop, not main"

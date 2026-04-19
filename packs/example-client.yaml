@@ -1,0 +1,52 @@
+# Pack: Example Client Project
+# Copy this file to packs/<your-client>.yaml and customize.
+# Load with: ./bin/workspace-context load packs/<your-client>.yaml
+
+name: example-client
+description: Context pack for a typical client project
+
+# ── Repos ──────────────────────────────────────────────────────────────────────
+repos:
+  - name: my-api
+    path: projects/my-api
+    description: Backend API service
+    stack: Python / FastAPI / PostgreSQL
+
+  - name: my-frontend
+    path: projects/my-frontend
+    description: React frontend
+    stack: TypeScript / React / Vite
+
+# ── Process docs ───────────────────────────────────────────────────────────────
+process_docs:
+  - knowledge/processes/general.md
+  # - knowledge/processes/jira.md   # uncomment if using JIRA
+
+# ── Key IDs ────────────────────────────────────────────────────────────────────
+# Store IDs here so the AI doesn't have to ask
+ids:
+  jira_project: "PROJ"
+  # clickup_space_id: "123456789"
+  # slack_channel: "#my-client-dev"
+
+# ── Conventions ────────────────────────────────────────────────────────────────
+conventions:
+  branch_pattern: "feat/<ticket>-<short-description>"
+  commit_format: "conventional"  # feat:, fix:, docs:, chore:
+  pr_target: main
+  deploy_envs:
+    - name: staging
+      trigger: merge to main
+    - name: production
+      trigger: manual tag
+
+# ── AI behavior ────────────────────────────────────────────────────────────────
+ai:
+  delivery_skill: workflow-generic-project
+  discovery_skill: dev-assistant
+  # persona: implementer   # default persona when working on this project
+  language: english
+  notes: |
+    - Always check AGENTS.md in each repo before working
+    - Use conventional commits
+    - Create draft PRs, never merge directly
