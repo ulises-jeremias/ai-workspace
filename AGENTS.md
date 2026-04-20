@@ -53,6 +53,68 @@
 
 ---
 
+## Session Bootstrap & Auto-detection
+
+At session start and throughout the conversation, **proactively detect** context from the user's words and activate the appropriate workspace features. Do NOT wait for explicit commands.
+
+### 1. Pack Detection
+
+When the user mentions a client, project, or domain — load the matching pack immediately:
+
+| User cue (any language) | Pack | Action |
+|------------------------|------|--------|
+| Client name, project code, domain keyword | Matching pack | `./bin/workspace-context load packs/<name>.yaml` |
+| Any project name | — | Check `packs/` for a matching YAML file |
+
+> **Customize this table** with your actual client/project triggers and pack files.
+
+After loading a pack, read its `process_docs` and `repos` to prime your context.
+
+### 2. Persona Detection
+
+When the user indicates a work mode — activate the matching persona constraints:
+
+| User cue | Persona file | Behavior |
+|----------|-------------|----------|
+| "mode reviewer", "just review", "analyze this" | `personas/reviewer.md` | Analyze and critique only, no changes |
+| "mode implementer", "let's code", "implement this" | `personas/implementer.md` | Write code, bias toward action |
+| "mode researcher", "investigate", "explore this" | `personas/researcher.md` | Explore and summarize, no implementation |
+| "mode architect", "design this", "ADR" | `personas/architect.md` | System design, tradeoffs, decisions |
+| "mode writer", "write docs", "documentation only" | `personas/writer.md` | Documentation and prose only |
+
+Read the persona file and adopt its constraints for the remainder of the session (or until changed).
+
+### 3. Project Detection
+
+When the user references a specific repo or project name:
+
+1. Check `projects/` symlinks for a match
+2. Set `workdir` to that repo for subsequent operations
+3. Run `dev-assistant` discovery if this is the first interaction with this repo in the session
+4. If the repo belongs to a known pack, auto-load that pack too
+
+### 4. Deferred Work Detection
+
+Route to `./bin/devcompanion queue` when the user signals asynchronous intent:
+
+- "do this later", "async", "background", "queue this", "defer"
+- "when you have time", "no rush", "batch this"
+- "review X for me" (when X is a different project from current context)
+
+### 5. Knowledge Auto-check
+
+Before asking the user ANY factual question:
+
+1. Search `knowledge/` for the answer (`./bin/assistant-memory search "topic"`)
+2. Check `knowledge/todos/pending.md` for related pending items
+3. Only ask the user if the answer is not found
+
+After learning something new (correction, preference, ID, decision):
+
+- Save immediately with `./bin/assistant-memory add --type learning "..."`
+
+---
+
 ## Skills
 
 ### Delivery
