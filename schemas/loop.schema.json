@@ -98,6 +98,24 @@
     "request": {
       "type": "string",
       "description": "Default task prompt (may be overridden via bin/loop run --request)."
+    },
+    "attribution": {
+      "description": "AI disclosure for outbound gh comments/reviews. Default ON in agent-toolkit loop-gh-gate; set false to disable.",
+      "oneOf": [
+        { "type": "boolean" },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "template": {
+              "type": "string",
+              "description": "Optional custom prefix with {login}, {loop}, {loop_suffix}, {url}."
+            }
+          }
+        }
+      ],
+      "default": true
     }
   }
 }
