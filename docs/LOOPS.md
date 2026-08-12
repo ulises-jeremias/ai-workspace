@@ -110,6 +110,7 @@ verifier: agentic-workstation-code-reviewer
 | `exit_conditions` | ✓ | When to stop the current run |
 | `budget` | ✓ | `max_tokens`, `max_runs_per_day`, `max_wall_seconds` |
 | `verifier` | | Skill or agent that signs off on write actions |
+| `attribution` | | `true` (default) / `false` / `{enabled, template}` — AI comment disclosure |
 
 ### STATE.md (mutated state)
 
@@ -182,7 +183,7 @@ The verifier must sign off before any action not in `allowlist`. If the
 verifier fails, the run is marked `verifier_failed` and escalated.
 
 > **Hard gate (2026-07-17):** During `loop run`, `agent-toolkit loop` installs a PATH-first
-> `gh` shim (`agent-toolkit loop`) that intercepts mutating commands. Actions must
+> `gh` shim (`loop-gh-gate`) that intercepts mutating commands. Actions must
 > be on `allowlist`, not on `deny`, and compatible with the loop tier. **merge**
 > and **close** additionally require a JSON verifier receipt under
 > `runs/<id>/verifier-receipts/` bound to exact `repo` + `number` + `verifier`
@@ -194,6 +195,24 @@ verifier fails, the run is marked `verifier_failed` and escalated.
 > until authenticated receipts are in use: the maker must not self-approve.
 > Unsigned receipts are trust-on-filesystem only — set `LOOP_GATE_RECEIPT_SECRET`
 > in production so the gate rejects unsigned maker-written files.
+
+### Comment attribution (default ON)
+
+Outbound `gh` comment/review bodies are prefixed with an AI disclosure when
+missing (enforced by `loop-gh-gate` in agent-toolkit):
+
+```markdown
+> 🤖 AI-assisted message posted as `@your-login` by [agent-toolkit](https://github.com/ulises-jeremias/agent-toolkit) (`loop-name`).
+```
+
+Disable per loop:
+
+```yaml
+attribution: false
+# or
+attribution:
+  enabled: false
+```
 
 ---
 
