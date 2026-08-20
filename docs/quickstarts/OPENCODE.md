@@ -26,7 +26,7 @@ opencode
 In opencode, start with:
 
 ```text
-Run agent-toolkit workspace and agent-toolkit memory inject. Tell me what you know about my setup.
+Run agent-toolkit workspace context, agent-toolkit memory inject and agent-toolkit memory todo. Tell me what you know about my setup.
 ```
 
 ## Load a Pack

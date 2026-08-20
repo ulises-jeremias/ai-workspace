@@ -33,7 +33,7 @@ muse
 In Muse Code, start with:
 
 ```text
-Run agent-toolkit workspace and agent-toolkit memory inject. What do you know about my setup?
+Run agent-toolkit workspace context, agent-toolkit memory inject and agent-toolkit memory todo. What do you know about my setup?
 ```
 
 Muse Code will read `AGENTS.md`, load workspace context, and inject any saved knowledge entries.

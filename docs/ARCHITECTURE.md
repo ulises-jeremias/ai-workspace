@@ -106,9 +106,9 @@ graph TB
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
-| **workspace-context** | `agent-toolkit workspace` | Generates session snapshot: packs, personas, skills, knowledge |
-| **assistant-memory** | `agent-toolkit memory` | Search, add, inject, and review knowledge entries |
-| **devcompanion** | `agent-toolkit devcompanion` | Background job queue: code reviews, PRs, CI fixes, investigations |
+| **agent-toolkit workspace** | `agent-toolkit workspace` | Generates session snapshot: packs, personas, skills, knowledge |
+| **agent-toolkit memory** | `agent-toolkit memory` | Search, add, inject, and review knowledge entries |
+| **agent-toolkit devcompanion** | `agent-toolkit devcompanion` | Background job queue: code reviews, PRs, CI fixes, investigations |
 | **agent-toolkit project** | `agent-toolkit project` | Clone repos and manage symlinks in projects/ |
 | **Schema Validation** | `schemas/` | JSON Schema validation for all context surfaces |
 
@@ -135,7 +135,7 @@ graph TB
       └─ snapshot includes: repos, conventions, IDs, LLM policy
 
 3. Prime context
-   └─ agent-toolkit workspace (snapshot)
+   └─ agent-toolkit workspace context (snapshot)
    └─ agent-toolkit memory inject (knowledge entries)
 ```
 

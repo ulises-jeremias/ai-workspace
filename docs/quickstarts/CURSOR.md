@@ -23,7 +23,7 @@ Cursor reads `CLAUDE.md` (symlinked to `AGENTS.md`) and `.cursor/rules/` for ins
 3. In Cursor's AI chat, type:
 
 ```text
-Run agent-toolkit workspace and agent-toolkit memory inject. What do you know about my projects?
+Run agent-toolkit workspace context, agent-toolkit memory inject and agent-toolkit memory todo. What do you know about my projects?
 ```
 
 ## Load a Pack
@@ -62,7 +62,7 @@ If you have existing `.cursor/rules/` files, they work alongside the harness. Th
 
 ### Composer
 
-When using Cursor Composer, the harness context is available through `agent-toolkit workspace` output. Paste the snapshot into Composer's context window for full harness awareness.
+When using Cursor Composer, the harness context is available through `agent-toolkit workspace context` output. Paste the snapshot into Composer's context window for full harness awareness.
 
 ### Agent Mode
 

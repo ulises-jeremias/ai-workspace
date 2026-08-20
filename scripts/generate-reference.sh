@@ -17,10 +17,26 @@ CHECK=false
 generate() {
   echo "# CLI Reference"
   echo ""
-  echo "> Auto-generated from \`bin/*\` \`--help\` output."
+  echo "> Auto-generated from \`agent-toolkit\` and \`bin/*\` \`--help\` output."
   echo "> Run \`bash scripts/generate-reference.sh\` to regenerate."
   echo ""
   echo "---"
+
+  # agent-toolkit subcommands — primary source for CLI reference
+  for cmd in memory devcompanion project workspace loop; do
+    echo ""
+    echo "## \`agent-toolkit ${cmd}\`"
+    echo ""
+    echo '```text'
+    if command -v agent-toolkit >/dev/null 2>&1; then
+      agent-toolkit "${cmd}" --help 2>/dev/null \
+        || agent-toolkit "${cmd}" help 2>/dev/null \
+        || echo "(no --help output available)"
+    else
+      echo "(agent-toolkit not installed — install with: pip install agent-toolkit-cli)"
+    fi
+    echo '```'
+  done
 
   for bin_file in "${WORKSPACE_ROOT}/bin/"*; do
     [[ -f "${bin_file}" ]] || continue

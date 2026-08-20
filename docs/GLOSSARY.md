@@ -79,7 +79,7 @@ Shared terminology for the AI Workspace + agentic-workstation ecosystem.
 : `skill-catalog.yaml` — the agentic-workstation orchestration metadata file that maps skills to domains, responsibilities, roles, and dependency graph.
 
 **snapshot**
-: The output of `agent-toolkit workspace` — a machine-readable summary of the current session state including active persona, loaded pack, spec hash, and persona constraints.
+: The output of `agent-toolkit workspace context` — a machine-readable summary of the current session state including active persona, loaded pack, spec hash, and persona constraints.
 
 ## T
 
@@ -92,4 +92,4 @@ Shared terminology for the AI Workspace + agentic-workstation ecosystem.
 : A detached git checkout created by `agent-toolkit loop run` to execute work on a clean copy of the workspace. Automatically removed after the run completes or is cancelled.
 
 **agent-toolkit workspace**
-: The session snapshot CLI at `agent-toolkit workspace`. Prints active state, loads packs/personas/profiles, validates schemas, and manages persona handoffs.
+: The session snapshot CLI at `agent-toolkit workspace context`. Prints active state, loads packs/personas/profiles, validates schemas, and manages persona handoffs.

@@ -26,7 +26,7 @@ gemini
 Start with:
 
 ```text
-Read GEMINI.md and agent-toolkit workspace output. What do you know about my setup?
+Read GEMINI.md and run agent-toolkit workspace context, agent-toolkit memory inject and agent-toolkit memory todo. What do you know about my setup?
 ```
 
 ## Load a Pack

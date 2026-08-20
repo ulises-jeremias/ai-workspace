@@ -1,6 +1,6 @@
 # CLI Reference
 
-> Auto-generated from `bin/*` `--help` output.
+> Auto-generated from `agent-toolkit` and `bin/*` `--help` output.
 > Run `bash scripts/generate-reference.sh` to regenerate.
 
 ---
@@ -85,7 +85,8 @@ Examples:
 Workflow:
   1. agent-toolkit devcompanion queue <project> --template <template>
   2. agent-toolkit devcompanion run-once            (or: let a background worker pick it up)
-  3. agent-toolkit devcompanion done <job-id>
+  3. Show the generated plan.md artifact to the user
+  4. agent-toolkit devcompanion done <job-id>
 
 Docs:
   docs/DEVCOMPANION.md

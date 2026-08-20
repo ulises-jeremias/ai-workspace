@@ -79,7 +79,7 @@ The harness is the scaffolding that wraps the agent: routing, telemetry, contrac
 | Component | Role |
 |-----------|------|
 | `AGENTS.md` routing table | Dispatch the right skill or sub-agent per task type |
-| `agent-toolkit workspace` snapshot | Record the spec hash and active pack at session start |
+| `agent-toolkit workspace context` snapshot | Record the spec hash and active pack at session start |
 | Job templates (`templates/jobs/`) | Declared contract: inputs, outputs, exit criteria |
 | `agent-toolkit devcompanion` job queue | Background work with artifact output |
 | Schema validation CI | Catch malformed context before it reaches the agent |
@@ -179,8 +179,8 @@ Session Start
     │
     ▼
 3. Prime context
-    agent-toolkit workspace         # state snapshot
-    agent-toolkit memory inject   # knowledge dump
+     agent-toolkit workspace context         # state snapshot
+     agent-toolkit memory inject   # knowledge dump
     │
     ▼
 4. Work (discover → delegate → implement)
