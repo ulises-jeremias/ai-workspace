@@ -180,7 +180,8 @@ Session Start
     ▼
 3. Prime context
      agent-toolkit workspace context         # state snapshot
-     agent-toolkit memory inject   # knowledge dump
+     agent-toolkit memory inject             # knowledge dump
+     agent-toolkit memory todo               # pending follow-ups
     │
     ▼
 4. Work (discover → delegate → implement)

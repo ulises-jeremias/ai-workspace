@@ -12,6 +12,8 @@
 ```bash
 cd ~/.ai-workspace
 bash scripts/workspace-init.sh
+# Install agent-toolkit CLI (required for all agent-toolkit commands)
+pip install agent-toolkit-cli  # or: uv tool install agent-toolkit-cli
 ```
 
 Muse Code reads `AGENTS.md` (portable contract; `CLAUDE.md` is symlinked for compatibility). The harness is already configured.

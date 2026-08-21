@@ -41,6 +41,16 @@ Expected output:
 
 ### Step 2: Verify the harness works
 
+Ensure the CLI is installed first (fresh machines do not have it yet):
+
+```bash
+pip install agent-toolkit-cli  # or: uv tool install agent-toolkit-cli
+# verify
+agent-toolkit --help >/dev/null && echo "agent-toolkit ready"
+```
+
+Then check the session snapshot:
+
 ```bash
 agent-toolkit workspace context
 ```

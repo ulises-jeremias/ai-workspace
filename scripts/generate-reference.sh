@@ -36,6 +36,22 @@ generate() {
       echo "(agent-toolkit not installed — install with: pip install agent-toolkit-cli)"
     fi
     echo '```'
+    # workspace context is the snapshot subcommand invoked by bin/workspace-context
+    if [[ "${cmd}" == "workspace" ]]; then
+      echo ""
+      echo "## \`agent-toolkit workspace context\`"
+      echo ""
+      echo '```text'
+      if command -v agent-toolkit >/dev/null 2>&1; then
+        agent-toolkit workspace context --help 2>/dev/null \
+          || agent-toolkit workspace context help 2>/dev/null \
+          || echo "(no --help output available)"
+      else
+        echo "(agent-toolkit not installed — install with: pip install agent-toolkit-cli)"
+      fi
+      echo '```'
+      continue
+    fi
   done
 
   for bin_file in "${WORKSPACE_ROOT}/bin/"*; do

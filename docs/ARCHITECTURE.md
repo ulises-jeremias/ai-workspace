@@ -106,7 +106,7 @@ graph TB
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
-| **agent-toolkit workspace** | `agent-toolkit workspace` | Generates session snapshot: packs, personas, skills, knowledge |
+| **agent-toolkit workspace** | `agent-toolkit workspace context` | Generates session snapshot: packs, personas, skills, knowledge |
 | **agent-toolkit memory** | `agent-toolkit memory` | Search, add, inject, and review knowledge entries |
 | **agent-toolkit devcompanion** | `agent-toolkit devcompanion` | Background job queue: code reviews, PRs, CI fixes, investigations |
 | **agent-toolkit project** | `agent-toolkit project` | Clone repos and manage symlinks in projects/ |

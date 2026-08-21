@@ -12,6 +12,8 @@
 ```bash
 cd ~/.ai-workspace
 bash scripts/workspace-init.sh
+# Install agent-toolkit CLI (required for all agent-toolkit commands)
+pip install agent-toolkit-cli  # or: uv tool install agent-toolkit-cli
 ```
 
 Cursor reads `CLAUDE.md` (symlinked to `AGENTS.md`) and `.cursor/rules/` for instructions. If you have agentic-workstation installed, Cursor also discovers skills from `~/.cursor/skills/`.
