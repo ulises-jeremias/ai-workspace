@@ -121,7 +121,7 @@ For larger knowledge bases:
 
 ### How do I prevent knowledge from getting stale?
 
-Use `agent-toolkit memory review --stale` (coming soon) to detect entries older than your threshold. Review the knowledge base monthly. Archive entries that reference tools/processes that no longer exist.
+Use `agent-toolkit memory review --stale` to detect entries older than your threshold. Review the knowledge base monthly. Archive entries that reference tools/processes that no longer exist.
 
 ---
 
@@ -146,7 +146,7 @@ Yes. Use `--no-llm` for a skeleton plan. This is useful for Cursor/Copilot-only 
 
 ### The AI doesn't seem to see my pack/persona/skills
 
-Run `agent-toolkit workspace` and check the output. It prints every loaded context surface. Missing entries usually mean:
+Run `agent-toolkit workspace context` and check the output. It prints every loaded context surface. Missing entries usually mean:
 
 - Pack file has invalid YAML (check with schema validation)
 - Persona frontmatter is malformed

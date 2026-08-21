@@ -83,7 +83,7 @@ Common scopes: `knowledge`, `bin`, `docs`, `templates`, `personas`, `packs`, `ci
 - [ ] CLI scripts are executable (`chmod +x bin/my-script`)
 - [ ] Docs files use UPPERCASE names (`docs/MY-DOC.md`)
 - [ ] No team-specific names, URLs, or tool instances hardcoded
-- [ ] Stale bin/ references replaced with agent-toolkit equivalents
+- [ ] Stale bin/ references outside docs/MIGRATION.md replaced with agent-toolkit equivalents
 
 ---
 

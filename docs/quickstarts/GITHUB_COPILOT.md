@@ -12,6 +12,8 @@
 ```bash
 cd ~/.ai-workspace
 bash scripts/workspace-init.sh
+# Install agent-toolkit CLI (required for all agent-toolkit commands)
+pip install agent-toolkit-cli  # or: uv tool install agent-toolkit-cli
 ```
 
 The harness symlinks `.github/copilot-instructions.md` to `AGENTS.md`. Copilot reads this file for global instructions.
@@ -38,7 +40,7 @@ Then in Copilot Chat, paste the workspace context:
 
 ```text
 Here's my current workspace context:
-[paste output of agent-toolkit workspace]
+[paste output of agent-toolkit workspace context]
 ```
 
 ## Copilot-Specific Features
@@ -79,5 +81,5 @@ Ask Copilot Chat: "What's in the AGENTS.md routing table?"
 
 ## Troubleshooting
 
-- **"Copilot doesn't read harness context"**: Copilot doesn't auto-load harness files — paste agent-toolkit workspace output into Chat
+- **"Copilot doesn't read harness context"**: Copilot doesn't auto-load harness files — paste agent-toolkit workspace context output into Chat
 - **"Symlink broken"**: Run `bash scripts/workspace-init.sh` to recreate the `.github/copilot-instructions.md` symlink

@@ -55,7 +55,7 @@ agent-toolkit memory search --since 2026-01-01
 Skills using `--from-skill` should check that `agent-toolkit memory` supports the flag:
 
 ```bash
-agent-toolkit memory add --type learning --from-skill test "probe" >/dev/null 2>&1 && echo "API available"
+agent-toolkit memory add --help 2>&1 | grep -q -- '--from-skill' && echo "API available"
 ```
 
 If `--from-skill` is not supported (older version), fall back to the plain `add` without flags.

@@ -12,6 +12,8 @@
 ```bash
 cd ~/.ai-workspace
 bash scripts/workspace-init.sh
+# Install agent-toolkit CLI (required for all agent-toolkit commands)
+pip install agent-toolkit-cli  # or: uv tool install agent-toolkit-cli
 ```
 
 opencode reads `CLAUDE.md` (symlinked to `AGENTS.md`) and `.opencode/` configuration.
@@ -26,7 +28,7 @@ opencode
 In opencode, start with:
 
 ```text
-Run agent-toolkit workspace and agent-toolkit memory inject. Tell me what you know about my setup.
+Run agent-toolkit workspace context, agent-toolkit memory inject and agent-toolkit memory todo. Tell me what you know about my setup.
 ```
 
 ## Load a Pack

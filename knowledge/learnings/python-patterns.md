@@ -4,15 +4,15 @@
 
 ## 2026-07-03 — CLI tools use click library with --dry-run convention
 
-**Context**: All CLI tools across the workspace (bin/*) use the `click` library.
+**Context**: Python CLI wrappers in `bin/*.py` (when present) use the `click` library.
 
-**Pattern**: Every CLI command should:
+**Pattern**: Every Python CLI wrapper should:
 - Support `--dry-run` flag for preview without side effects
 - Use `--verbose` for detailed output
 - Return meaningful exit codes (0=success, 1=error, 2=validation failure)
 - Use `click.echo()` not `print()` for proper testing support
 
-**Where**: `agent-toolkit memory`, `agent-toolkit workspace`, `agent-toolkit devcompanion`
+**Where**: `bin/*.py` — Python wrappers only. Not applicable to Bash wrappers like `bin/workspace-context`.
 
 ## 2026-07-02 — Testing conventions with pytest
 

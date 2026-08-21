@@ -41,8 +41,18 @@ Expected output:
 
 ### Step 2: Verify the harness works
 
+Ensure the CLI is installed first (fresh machines do not have it yet):
+
 ```bash
-agent-toolkit workspace
+pip install agent-toolkit-cli  # or: uv tool install agent-toolkit-cli
+# verify
+agent-toolkit --help >/dev/null && echo "agent-toolkit ready"
+```
+
+Then check the session snapshot:
+
+```bash
+agent-toolkit workspace context
 ```
 
 You should see a snapshot with:
@@ -205,7 +215,7 @@ agent-toolkit memory add --type process "Feature workflow: plan -> implement -> 
 Close your AI tool and start a new session. Tell the AI:
 
 ```text
-Run agent-toolkit memory inject and agent-toolkit workspace. What do you know about my projects?
+Run agent-toolkit workspace context, agent-toolkit memory inject and agent-toolkit memory todo. What do you know about my projects?
 ```
 
 The AI should recall:
@@ -249,7 +259,16 @@ Make sure you're running your AI tool from the harness directory (`~/.ai-workspa
 
 ### "agent-toolkit workspace command not found"
 
-Run `bash scripts/workspace-init.sh` again — it adds `bin/` to your PATH for the current session.
+Install the CLI and ensure its directory is on your PATH:
+
+```bash
+python3 -m pip install --user agent-toolkit-cli
+# or
+uv tool install agent-toolkit-cli
+# or one-shot: uvx agent-toolkit-cli --help
+```
+
+Verify with `agent-toolkit --help`. `bash scripts/workspace-init.sh` only sets up symlinks and workspace directories — it does not install `agent-toolkit`.
 
 ### "Pack validation failed"
 
