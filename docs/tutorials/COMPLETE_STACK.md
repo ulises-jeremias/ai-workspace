@@ -1,26 +1,28 @@
-# The Complete Stack — agentic-workstation + agentic-harness
+# The Complete Stack — agentic-workstation + agent-toolkit + agentic-harness
 
-> Integrated tutorial: how all 3 layers of the Personal DX Stack work together.
+> Integrated tutorial: how the three layers of the Personal DX Stack work together.
 
 **Time**: ~2.5 hours | **Prerequisites**: None — starts from zero
 
 ---
 
-## The 3-Layer Architecture
+## The Three-Layer Architecture
 
 | Layer | Repository | What it provides |
 |-------|-----------|-----------------|
-| L1 — Infrastructure | **agentic-workstation** | Skills, agents, MCP templates, CLI helpers, dotfiles |
-| L2 — Runtime | **agentic-harness** | Memory, personas, packs, loops, job queues |
-| L3 — Application | Your project repo | AGENTS.md with project-specific routing |
+| **Infrastructure** | **agentic-workstation** | Machine provisioning, dotfiles, Herdr/tmux installer |
+| **Capability** | **agent-toolkit** | Skills, agents, MCP, loop/queue/memory/project CLIs |
+| **Workspace** | **agentic-harness** | Persistent workspace — memory, persona selections, context bundles, loops, job queues |
 
-You can use L1 alone (skills without memory). You can use L2 alone (memory without skills). Together, they form a complete AI-native development workflow.
+The harness is the **reference workspace** — it holds durable state and wires it via Toolkit CLIs. Toolkit ships the runtime; workstation provisions the machine.
+
+You can use the Capability Layer alone (skills without persistent memory). You can use the Workspace Layer alone (memory without extra skills). Together, they form a complete AI-native workflow.
 
 ---
 
 ## Part 1: Setup the Foundation (30 min)
 
-### Install the workstation (L1)
+### Install the workstation (Infrastructure Layer)
 
 Skills-only (fastest):
 
@@ -55,7 +57,7 @@ CLI tools: dots-doctor, dots-skills, dots-devcompanion, dots-mcp, dots-loop
 
 ```
 
-### Clone the harness (L2)
+### Clone the harness (Workspace Layer)
 
 ```bash
 
@@ -113,7 +115,7 @@ git add . && git commit -m "feat: initial hello-stack project"
 
 ```
 
-### Add AGENTS.md (L3)
+### Add AGENTS.md (Application — your project)
 
 Create `AGENTS.md` in the project root:
 
@@ -358,22 +360,19 @@ The AI remembers everything from yesterday. No repetition needed.
 
 ```text
 
-agentic-workstation (L1)          agentic-harness (L2)          hello-stack (L3)
-┌─────────────────────┐          ┌─────────────────────┐       ┌──────────────────┐
-│ 52 skills            │          │ knowledge/           │       │ AGENTS.md        │
-│ 13 sub-agents        │──────────│ packs/hello-stack    │───────│ hello.py         │
-│ 6 MCP templates      │  skills  │ personas/            │  ctx  │ tests/           │
-│ dots-* CLI           │  agents  │ loops/daily-triage   │       │ .github/         │
-└─────────────────────┘          │ agent-toolkit memory  │       └──────────────────┘
-                                   │ agent-toolkit workspace │
-                                  │ agent-toolkit devcompanion      │
-                                  └─────────────────────┘
-
+agentic-workstation               agent-toolkit                 agentic-harness              hello-stack
+(Infrastructure)                  (Capability)                  (Workspace)                  (Application)
+┌─────────────────────┐          ┌─────────────────────┐       ┌─────────────────────┐      ┌──────────────────┐
+│ dotfiles / shell     │          │ 52 skills            │       │ knowledge/           │      │ AGENTS.md        │
+│ Herdr / tmux         │          │ 13 sub-agents        │───────│ packs/hello-stack    │──────│ hello.py         │
+│ machine provisioning │          │ 6 MCP templates      │  CLIs │ personas/            │  ctx │ tests/           │
+└─────────────────────┘          │ loop/memory/project  │       │ loops/daily-triage   │      │ .github/         │
+                                 └─────────────────────┘       └─────────────────────┘      └──────────────────┘
 ```
 
 ### Layer interaction
 
-| Action | L1 provides | L2 provides | L3 consumes |
+| Action | Capability (Toolkit) | Workspace (Harness) | Application |
 |--------|------------|------------|------------|
 | Plan feature | planner subagent | Pack conventions | AGENTS.md routing |
 | Implement | implementer subagent | Knowledge patterns | Source code |

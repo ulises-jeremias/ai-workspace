@@ -12,11 +12,11 @@
 
 ## Work Context
 
-- **Current directory**: This workspace (not a repo itself)
+- **Current directory**: This workspace (not a repo itself) — the **Workspace Layer** reference implementation, powered by **agent-toolkit** (Capability Layer)
 - **Repos**: `./projects/` symlinks (quick access) · `./repos/` cloned on-demand
 - **Knowledge**: `./knowledge/` — your processes, tool patterns, learnings, todos
-- **Personas**: `./personas/` — specialized AI personas for different work modes
-- **Packs**: `./packs/` — context bundles for switching between clients/projects
+- **Personas**: `./personas/` — workspace persona selections (bindings to Toolkit's generic catalog)
+- **Packs**: `./packs/` — workspace context bundles for switching between clients/projects (distinct from Toolkit capability packs)
 
 ---
 
@@ -123,14 +123,17 @@ Rules:
 
 ## Personas
 
-Personas define focused work modes with specific constraints:
+Personas define focused work modes with specific constraints. Generic definitions live in **agent-toolkit** (Capability Layer); this workspace holds **selections/bindings** in `personas/`:
 
 ```bash
-# Available personas (customize to your needs)
+# Workspace selections (from Toolkit catalog)
 personas/implementer.md    # Write code, bias toward action
 personas/reviewer.md       # Analyze and critique, no changes
 personas/researcher.md     # Explore and summarize, no implementation
 personas/architect.md      # System design, tradeoffs, ADRs
+personas/debugger.md       # Diagnose failures, no fixes
+personas/tester.md         # Write tests only
+personas/writer.md         # Documentation only
 ```
 
 ### Persona enforcement
@@ -151,12 +154,14 @@ violating constraints.
 
 ## Packs
 
-Packs bundle context for a specific client or project:
+Workspace packs bundle context for a specific client or project (distinct from Toolkit capability packs):
 
 ```bash
-# Load a pack at session start
+# Load a workspace context bundle at session start
 agent-toolkit workspace load packs/my-client.yaml
 ```
+
+> **Workspace packs** (this repo, `packs/*.yaml`) = context bundles. **Toolkit packs** (`agent-toolkit`) = reusable capabilities. See [`docs/PACKS.md`](docs/PACKS.md).
 
 → [`docs/PACKS.md`](docs/PACKS.md)
 
@@ -280,15 +285,17 @@ agent-toolkit doctor                   # verify everything is set up
 
 ---
 
-## Ecosystem — Three-Tier Model
+## Ecosystem — Three-Layer Model
 
-This workspace is **L3 (project overlay)** in a three-tier personal DX stack:
+This workspace is the **Workspace Layer** — a persistent reference workspace in the personal DX stack:
 
 | Layer | Repo | Role |
 |-------|------|------|
-| **L1** | [agentic-workstation](https://github.com/ulises-jeremias/agentic-workstation) | Machine provisioning — chezmoi, shell, packages, LLM policy |
-| **L1.5** | [agent-toolkit](https://github.com/ulises-jeremias/agent-toolkit) | Capability distribution — 52 skills, loops, profiles, MCP |
-| **L3** | **agentic-harness** (this workspace) | AI workspace scaffold for multi-repo orchestration |
+| **Infrastructure** | [agentic-workstation](https://github.com/ulises-jeremias/agentic-workstation) | Machine provisioning — chezmoi, shell, packages, LLM policy |
+| **Capability** | [agent-toolkit](https://github.com/ulises-jeremias/agent-toolkit) | Capability distribution — skills, agents, loop/queue CLIs, profiles, MCP |
+| **Workspace** | **agentic-harness** (this workspace) | Persistent reference workspace — memory, indexed repos, persona selections, context bundles, loop state |
+
+> The harness is the **reference implementation** — it holds durable state and wires it via agent-toolkit CLIs. It does not ship a second runtime.
 
 **Install agent-toolkit** (required for all workspace commands):
 

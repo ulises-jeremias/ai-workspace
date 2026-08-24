@@ -36,11 +36,11 @@ cd ~/.ai-workspace && bash scripts/workspace-init.sh
 
 ```
 
-Now the AI has persistent memory via `assistant-memory`. Start your AI session with:
+Now the AI has persistent memory via `agent-toolkit memory`. Start your AI session with:
 
 ```text
 
-Run assistant-memory inject and use the output as context.
+Run agent-toolkit memory inject and use the output as context.
 
 ```
 
@@ -51,10 +51,10 @@ The AI will now remember patterns, preferences, and todos across sessions.
 ```bash
 
 # Save your first learning
-./bin/assistant-memory add --type learning "We use Conventional Commits: feat:, fix:, docs:, chore:"
+agent-toolkit memory add --type learning "We use Conventional Commits: feat:, fix:, docs:, chore:"
 
 # Start a new session — the AI should recall this
-./bin/assistant-memory inject
+agent-toolkit memory inject
 
 ```
 
@@ -79,7 +79,7 @@ The Jira project key is ACME. We deploy to AWS via GitHub Actions.
 
 ```bash
 
-workspace-context load --pack packs/acme-corp.yaml
+agent-toolkit workspace load packs/acme-corp.yaml
 # AI automatically knows repos, conventions, Jira key, deploy details
 
 ```
@@ -139,13 +139,13 @@ Replace them with personas:
 ```bash
 
 # Instead of "just review, don't change"
-workspace-context load --persona reviewer
+agent-toolkit workspace use-persona reviewer
 
 # Instead of "research only"
-workspace-context load --persona researcher
+agent-toolkit workspace use-persona researcher
 
 # Instead of "let me approve first"
-workspace-context load --persona architect
+agent-toolkit workspace use-persona architect
 
 ```
 

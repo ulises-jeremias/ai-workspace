@@ -84,6 +84,9 @@ projects.yaml
 loops/*/STATE.md
 loops/*/runs/
 
+# Swarm runtime state (machine-local, never commit)
+.agent-toolkit/
+
 # Cloned repositories (gitignored - use project-indexer to manage)
 repos/
 
