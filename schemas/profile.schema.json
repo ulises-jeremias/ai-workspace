@@ -23,7 +23,7 @@
     },
     "persona": {
       "type": "string",
-      "enum": ["implementer", "reviewer", "researcher", "architect", "writer"],
+      "enum": ["implementer", "reviewer", "researcher", "architect", "writer", "debugger", "tester"],
       "description": "Persona to activate (must match a file in personas/)."
     },
     "skills": {

@@ -1,6 +1,7 @@
 # Personas
 
 > Work mode definitions that constrain AI behavior in a session.
+> Generic definitions live in **agent-toolkit** (Capability Layer); this workspace holds **selections/bindings** in `personas/`.
 
 ---
 
@@ -13,8 +14,19 @@ Personas define **what the AI does** (not who it is). They are constraint sets:
 - `researcher` — explore and summarize, no implementation
 - `architect` — design and tradeoffs, no code
 - `writer` — documentation and prose only
+- `debugger` — diagnose failures, no fixes
+- `tester` — write tests only, no feature code
 
 Activating a persona prevents scope creep. If you want a review, you don't want the AI to also start refactoring.
+
+### Ownership
+
+| Layer | Where | Role |
+|-------|-------|------|
+| **agent-toolkit** | `agents/` (generic catalog) | Canonical persona definitions, reusable across workspaces |
+| **agentic-harness** | `personas/*.md` (workspace selections) | Which personas are active in this workspace and how they hand off |
+
+> The harness does not fork generic logic — it selects from the Toolkit catalog and binds workspace-specific handoffs. If you add a new persona here, consider upstreaming the generic form to Toolkit.
 
 ---
 
@@ -27,6 +39,10 @@ Activating a persona prevents scope creep. If you want a review, you don't want 
 | `researcher` | Explore only, no implementation | Discovery, R&D |
 | `architect` | Design and options, no code | System design, ADRs |
 | `writer` | Docs only, no code | READMEs, runbooks, ADRs |
+| `debugger` | Read + run, no writes | Failure diagnosis, root-cause analysis |
+| `tester` | Write tests only, no feature code | Test authoring, coverage gaps |
+
+All files are validated against `schemas/persona-frontmatter.schema.json` and `schemas/profile.schema.json`.
 
 ---
 
@@ -85,6 +101,16 @@ You can also just say: *"Use the reviewer persona for this task"* — the AI rea
 
 ```bash
 cat > personas/my-persona.md << 'EOF'
+---
+name: my-persona
+allow: [read, write]
+deny: [deploy]
+output_format: code
+handoffs:
+  - when: "needs review"
+    to: reviewer
+---
+
 # My Persona
 
 > One-line description of what this persona does.
@@ -110,11 +136,17 @@ cat > personas/my-persona.md << 'EOF'
 EOF
 ```
 
+Validate:
+
+```bash
+bash scripts/validate-context.sh --surface personas
+```
+
 ---
 
 ## Persona Design Principles
 
 1. **Constraints first** — define what the AI must NOT do, not just what it should do
 2. **No identity framing** — avoid "you are a senior engineer" — use "analyze and report, no changes"
-3. **Clear handoffs** — define when to switch personas or delegate to subagents
+3. **Clear handoffs** — define when to switch personas or delegate to subagents. Never hand off to yourself (self-handoff is a no-op bug).
 4. **Output format** — specify what good output looks like

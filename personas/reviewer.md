@@ -9,7 +9,7 @@ handoffs:
   - when: "architectural changes are needed"
     to: architect
   - when: "security vulnerabilities found"
-    to: reviewer
+    to: security-reviewer
 ---
 
 # Reviewer Persona

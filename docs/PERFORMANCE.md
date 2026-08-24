@@ -34,8 +34,8 @@ Clone manually when:
 
 Monorepos (>1GB, >10K files) don't directly impact harness performance since the harness doesn't index file contents. However:
 
-- **workspace-context** reads project metadata only (not file contents)
-- **agent-toolkit project** clones once, manages symlinks thereafter
+- **`agent-toolkit workspace context`** reads project metadata only (not file contents)
+- **`agent-toolkit project`** clones once, manages symlinks thereafter
 - **AI tools** may be slow indexing large repos; this is a tool issue, not a harness issue
 
 ---
@@ -44,7 +44,7 @@ Monorepos (>1GB, >10K files) don't directly impact harness performance since the
 
 ### Token budget
 
-`assistant-memory inject` outputs all knowledge entries to stdout. The AI tool reads this as context. Budget accordingly:
+`agent-toolkit memory inject` outputs all knowledge entries to stdout. The AI tool reads this as context. Budget accordingly:
 
 | Context window | Max knowledge entries | Total tokens |
 |---------------|----------------------|-------------|
@@ -84,12 +84,9 @@ Git handles this well — knowledge is text, so delta compression is efficient.
 ### Cost formula
 
 ```text
-
 cost_per_run = (input_tokens × input_price) + (output_tokens × output_price)
-
 monthly_cost = cost_per_run × runs_per_day × 30
-
-```text
+```
 
 ### Example costs (Claude Sonnet 4, May 2026 pricing)
 
@@ -99,7 +96,7 @@ monthly_cost = cost_per_run × runs_per_day × 30
 | PR babysitter (5 PRs) | L2 | ~15K | 4 | ~$6.00 |
 | CI sweeper (3 repos) | L3 | ~30K | 12 | ~$36.00 |
 | Dependency sweeper (5 repos) | L3 | ~40K | 1 | ~$4.00 |
-| Changelog drafter | L2 | ~8K | 1 | ~$0.80 |
+| Changelog drafter | L1 | ~8K | 1 | ~$0.80 |
 
 ### Cost optimization
 
@@ -112,17 +109,18 @@ monthly_cost = cost_per_run × runs_per_day × 30
 ### Cost monitoring
 
 ```bash
-
 # Per-loop cost estimate
-agent-toolkit loop cost daily-triage --monthly
+agent-toolkit loop cost daily-triage
 
 # Audit all loops
-agent-toolkit loop audit --summary
+agent-toolkit loop audit
 
-# Set cost alert
-agent-toolkit loop cost daily-triage --alert 5.00  # Alert if monthly exceeds $5
+# Audit a single loop
+agent-toolkit loop audit daily-triage
 
-```text
+# List all loops and their status
+agent-toolkit loop status
+```
 
 ---
 
@@ -140,7 +138,7 @@ agent-toolkit loop cost daily-triage --alert 5.00  # Alert if monthly exceeds $5
 
 ### Context snapshot size
 
-`workspace-context` generates a snapshot of all loaded context. Snapshot size grows with:
+`agent-toolkit workspace context` generates a snapshot of all loaded context. Snapshot size grows with:
 
 - Number of active repos (each adds project metadata)
 - Knowledge base size (`inject` adds all entries)
@@ -184,6 +182,6 @@ Typical snapshot: **5-15KB** for a solo dev setup. Agency setups with 10 repos a
 - [ ] Per-client LLM policies (strict mode)
 - [ ] Per-client env.d/ files
 - [ ] Audit knowledge/ weekly for cross-client contamination
-- [ ] Rotate loop contexts with workspace-context load
+- [ ] Rotate loop contexts with `agent-toolkit workspace load`
 
 <!-- markdownlint-enable MD024 -->

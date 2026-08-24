@@ -1,12 +1,24 @@
 # Packs
 
 > Context bundles for switching between clients or projects.
+> Workspace packs are **context** — Toolkit packs are **capabilities**. Don't conflate them.
 
 ---
 
-## What are Packs?
+## Two Kinds of Packs
 
-A pack is a YAML file that bundles all the context the AI needs for a specific client or project:
+| Kind | Where | What it bundles | Loaded by |
+|------|-------|----------------|-----------|
+| **Workspace pack** | `packs/*.yaml` in this repo | Repos, IDs, conventions, LLM policy *for one client/project* | `agent-toolkit workspace load packs/<name>.yaml` |
+| **Toolkit pack** | `agent-toolkit` (Capability Layer) | Reusable skills, agents, prompts | `agent-toolkit` CLI / skill catalog |
+
+This document is about **workspace packs**. For Toolkit packs, see [agent-toolkit docs](https://github.com/ulises-jeremias/agent-toolkit).
+
+---
+
+## What are Workspace Packs?
+
+A workspace pack is a YAML file that bundles all the context the AI needs for a specific client or project:
 
 - Which repos to work with
 - Project-specific IDs (JIRA project, ClickUp space, etc.)
@@ -31,7 +43,7 @@ This outputs the pack contents as context and marks it as the active pack (saved
 ### See active pack
 
 ```bash
-agent-toolkit workspace     # shows active pack in snapshot
+agent-toolkit workspace context     # shows active pack in snapshot
 ```
 
 ### Deactivate
@@ -106,12 +118,13 @@ agent-toolkit workspace load packs/my-client.yaml
 
 | Information type | Where |
 |-----------------|-------|
-| Project-specific IDs, repos, conventions | `packs/<client>.yaml` |
+| Project-specific IDs, repos, conventions | `packs/<client>.yaml` (workspace pack) |
+| Reusable skills and tool bundles | `agent-toolkit` packs (Toolkit pack) |
 | General tool patterns (how JIRA works) | `knowledge/processes/jira.md` |
 | Session learnings and corrections | `knowledge/learnings/` |
 | Pending todos | `knowledge/todos/` |
 
-Packs are **per-project context**. Knowledge is **general and cross-project**.
+Workspace packs are **per-project context**. Knowledge is **general and cross-project**. Toolkit packs are **reusable capabilities**.
 
 ---
 

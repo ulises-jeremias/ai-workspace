@@ -1,6 +1,7 @@
 # Architecture — agentic-harness
 
 > Visual overview of the agentic-harness component architecture and data flow.
+> This repo is the **Workspace Layer** — a persistent reference workspace powered by **agent-toolkit** (Capability Layer). It is not a second runtime.
 
 ![agentic-harness architecture](../static/architecture.svg)
 
@@ -14,15 +15,15 @@ graph TB
         AI[Claude Code / opencode / Cursor / Copilot / Gemini CLI]
     end
 
-    subgraph "Context Layer"
+    subgraph "Stage 1 — Context"
         AGENTS[AGENTS.md<br/>Routing Table]
-        PACKS[packs/*.yaml<br/>Project Context]
-        PERSONAS[personas/*.md<br/>Behavioral Guardrails]
+        PACKS[packs/*.yaml<br/>Workspace Context Bundles]
+        PERSONAS[personas/*.md<br/>Workspace Persona Selections]
         PROFILES[profiles/*.yaml<br/>Session Bundles]
         KNOWLEDGE[knowledge/<br/>Persistent Memory]
     end
 
-    subgraph "Harness Layer"
+    subgraph "Stage 2 — Harness"
         WCTX[agent-toolkit workspace<br/>Session Snapshot]
         AMEM[agent-toolkit memory<br/>Knowledge CLI]
         DC[agent-toolkit devcompanion<br/>Job Queue]
@@ -30,7 +31,7 @@ graph TB
         SCHEMAS[schemas/<br/>JSON Schema Validation]
     end
 
-    subgraph "Loop Layer"
+    subgraph "Stage 3 — Loops"
         LOOP[agent-toolkit loop<br/>Loop Orchestrator]
         TEMPLATES[templates/loops/<br/>Loop Templates]
         SCHEDULER[Scheduler<br/>systemd / launchd]
@@ -44,7 +45,7 @@ graph TB
     end
 
     subgraph "External"
-        WS[agentic-workstation<br/>Skills + Agents]
+        TK[agent-toolkit<br/>Capability Layer — skills, agents, CLIs]
         GIT[GitHub / GitLab<br/>Repositories]
     end
 
@@ -54,14 +55,14 @@ graph TB
     WCTX --> PERSONAS
     WCTX --> PROFILES
     WCTX --> KNOWLEDGE
-    WCTX --> WS
+    WCTX --> TK
 
     AI --> AMEM
     AMEM --> KNOWLEDGE
 
     AI --> DC
     DC --> JOBS
-    DC --> WS
+    DC --> TK
 
     AI --> PI
     PI --> REPOS
@@ -85,24 +86,28 @@ graph TB
     style WCTX fill:#84cc16,stroke:#65a30d,color:#000
     style LOOP fill:#f59e0b,stroke:#d97706,color:#000
     style KNOWLEDGE fill:#ec4899,stroke:#db2777,color:#fff
-    style WS fill:#6366f1,stroke:#4f46e5,color:#fff
+    style TK fill:#6366f1,stroke:#4f46e5,color:#fff
 ```
+
+> **Naming note:** Stages 1–3 are *discipline* stages (Context → Harness → Loop Engineering).
+> Loop *tiers* L1/L2/L3 are a separate axis — they describe loop autonomy
+> (report-only → PR-gated → unattended allowlist). See [docs/METHODOLOGY.md](METHODOLOGY.md) and [docs/LOOPS.md](LOOPS.md).
 
 ---
 
 ## Component Reference
 
-### Context Layer (L1)
+### Stage 1 — Context Engineering
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
 | **AGENTS.md** | Repo root | Stateless orchestration rules, routing table, skill definitions |
-| **Packs** | `packs/*.yaml` | Per-project context bundles: repos, IDs, conventions, LLM policy |
-| **Personas** | `personas/*.md` | Work mode constraints with allow/deny/handoff rules |
+| **Packs** | `packs/*.yaml` | Workspace context bundles: repos, IDs, conventions, LLM policy (distinct from Toolkit capability packs) |
+| **Personas** | `personas/*.md` | Workspace persona selections (bindings to Toolkit's generic catalog) |
 | **Profiles** | `profiles/*.yaml` | Bundled sessions combining pack + persona + skills |
 | **Knowledge Base** | `knowledge/` | Persistent cross-session memory: learnings, processes, todos |
 
-### Harness Layer (L2)
+### Stage 2 — Harness Engineering
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
@@ -112,12 +117,14 @@ graph TB
 | **agent-toolkit project** | `agent-toolkit project` | Clone repos and manage symlinks in projects/ |
 | **Schema Validation** | `schemas/` | JSON Schema validation for all context surfaces |
 
-### Loop Layer (L3)
+> All CLIs in this table are shipped by **agent-toolkit**. The harness validates inputs and holds the durable state.
+
+### Stage 3 — Loop Engineering
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
 | **loop** | `agent-toolkit loop` | Loop orchestrator: init, run, status, audit, cost estimation |
-| **Loop Templates** | `templates/loops/` | 10 reusable templates: daily-triage, pr-babysitter, ci-sweeper, etc. |
+| **Loop Templates** | `templates/loops/` | Reusable templates: daily-triage, pr-babysitter, ci-sweeper, etc. |
 | **Scheduler** | systemd / launchd | OS-level timer integration for autonomous execution |
 
 ---
@@ -169,38 +176,40 @@ graph TB
 
 ---
 
-## Layer Dependency
+## Discipline Stages
 
 ```mermaid
 graph LR
-    L0[Layer 0<br/>Ralph Loop] --> L1[Layer 1<br/>Context Engineering]
-    L1 --> L2[Layer 2<br/>Harness Engineering]
-    L2 --> L3[Layer 3<br/>Loop Engineering]
+    S0[Stage 0<br/>Ralph Loop] --> S1[Stage 1<br/>Context Engineering]
+    S1 --> S2[Stage 2<br/>Harness Engineering]
+    S2 --> S3[Stage 3<br/>Loop Engineering]
 
-    L0 -.- S1[Backing Specs]
-    L0 -.- S2[Context]
-    L0 -.- S3[Memory]
-    L0 -.- S4[Fix Loop]
+    S0 -.- A1[Backing Specs]
+    S0 -.- A2[Context]
+    S0 -.- A3[Memory]
+    S0 -.- A4[Fix Loop]
 
-    L1 -.- C1[Packs]
-    L1 -.- C2[Personas]
-    L1 -.- C3[Knowledge]
+    S1 -.- C1[Packs]
+    S1 -.- C2[Personas]
+    S1 -.- C3[Knowledge]
 
-    L2 -.- H1[CLI Tools]
-    L2 -.- H2[Schemas]
-    L2 -.- H3[Queue]
+    S2 -.- H1[CLI Tools]
+    S2 -.- H2[Schemas]
+    S2 -.- H3[Queue]
 
-    L3 -.- O1[LOOP.md]
-    L3 -.- O2[STATE.md]
-    L3 -.- O3[Scheduler]
+    S3 -.- O1[LOOP.md]
+    S3 -.- O2[STATE.md]
+    S3 -.- O3[Scheduler]
 
-    style L0 fill:#f59e0b,color:#000
-    style L1 fill:#22d3ee,color:#000
-    style L2 fill:#84cc16,color:#000
-    style L3 fill:#a78bfa,color:#fff
+    style S0 fill:#f59e0b,color:#000
+    style S1 fill:#22d3ee,color:#000
+    style S2 fill:#84cc16,color:#000
+    style S3 fill:#a78bfa,color:#fff
 ```
 
-Each layer can be adopted independently. You can use context engineering without loops. To get autonomous loops, you need all three.
+Each stage can be adopted independently. You can use context engineering without loops. To get autonomous loops, you need all three.
+
+> **Loop tiers vs Stages:** Loop tiers L1/L2/L3 (report-only / PR-gated / unattended) are orthogonal to Stages. A Stage 3 loop can run at any tier — tier describes *autonomy*, Stage describes *discipline*. See [docs/LOOPS.md](LOOPS.md#rollout-tiers).
 
 ---
 
@@ -208,8 +217,11 @@ Each layer can be adopted independently. You can use context engineering without
 
 | System | Integration | Where |
 |--------|------------|-------|
-| **agentic-workstation** | Skills, agents, MCP templates, devcompanion runner | `~/.local/share/agentic-workstation/` |
+| **agent-toolkit** | Skills, agents, loop/queue/memory/project CLIs | Capability Layer — `agent-toolkit` CLI |
+| **agentic-workstation** | Machine provisioning, Herdr/tmux, dotfiles | Infrastructure Layer |
 | **GitHub** | Repositories, PRs, issues | Via `gh` CLI + `agent-toolkit project` |
 | **GitLab** | Repositories, MRs, issues | Via `glab` CLI + `agent-toolkit project` |
-| **Jira / ClickUp / Linear** | Task management | Via skills from agentic-workstation |
+| **Jira / ClickUp / Linear** | Task management | Via skills from agent-toolkit |
 | **systemd / launchd** | Loop scheduling | OS-level timer units / plists |
+```
+

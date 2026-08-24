@@ -1,6 +1,6 @@
 # Swarms in agentic-harness — Reference Workspace
 
-This harness is the **L3 demonstration** for Agent Toolkit Swarms. It shows
+This harness is the **Workspace Layer reference** for Agent Toolkit Swarms. It shows
 how to use `agent-toolkit swarm`, not how to implement it.
 
 **Ownership:** `agent-toolkit` owns the engine; `agentic-workstation` installs
