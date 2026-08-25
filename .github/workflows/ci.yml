@@ -50,3 +50,27 @@ jobs:
 
       - name: Validate packs, job templates, and personas
         run: bash scripts/validate-context.sh
+
+  pytest:
+    name: Python tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Install agent-toolkit CLI (tests exercise the real binary)
+        run: |
+          curl -fsSL -o /tmp/agent-toolkit \
+            https://github.com/ulises-jeremias/agent-toolkit/releases/latest/download/agent-toolkit-linux-x86_64
+          chmod +x /tmp/agent-toolkit
+          sudo install -m 0755 /tmp/agent-toolkit /usr/local/bin/agent-toolkit
+          agent-toolkit version
+
+      - name: Run pytest
+        run: pytest tests/ -v
