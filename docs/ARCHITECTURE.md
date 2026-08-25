@@ -223,5 +223,3 @@ Each stage can be adopted independently. You can use context engineering without
 | **GitLab** | Repositories, MRs, issues | Via `glab` CLI + `agent-toolkit project` |
 | **Jira / ClickUp / Linear** | Task management | Via skills from agent-toolkit |
 | **systemd / launchd** | Loop scheduling | OS-level timer units / plists |
-```
-
